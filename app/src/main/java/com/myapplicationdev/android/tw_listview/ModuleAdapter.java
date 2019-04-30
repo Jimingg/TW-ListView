@@ -1,6 +1,8 @@
 package com.myapplicationdev.android.tw_listview;
 
 import android.content.Context;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,45 +14,51 @@ import java.util.ArrayList;
 
 public class ModuleAdapter extends ArrayAdapter<Module> {
 
+    private ArrayList<Module> module;
     private Context context;
-    private ArrayList<String> al;
-    private TextView textViewModule;
-    private ImageView imageView;
+    private TextView tvCode;
+    private ImageView ivProg;
 
-    public ModuleAdapter(Context context, int resource, ArrayList<String> objects){
-        super(context, resource, String);
-        al = objects;
+    public ModuleAdapter(Context context, int resource, ArrayList<Module> objects){
+        super(context, resource, objects);
+        // Store the food that is passed to this adapter
+        module = objects;
+        // Store Context object as we would need to use it later
         this.context = context;
     }
 
+    // getView() is the method ListView will call to get the
+    //  View object every time ListView needs a row
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        // The usual way to get the LayoutInflater object to
+        //  "inflate" the XML file into a View object
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        // "Inflate" the row.xml as the layout for the View object
         View rowView = inflater.inflate(R.layout.row, parent, false);
 
-        textViewModule =         rowView.findViewById(R.id.textViewModule);
-        imageView =             rowView.findViewById(R.id.imageView);
+        // Get the TextView object
+        tvCode =         rowView.findViewById(R.id.tvCode);
+        // Get the ImageView object
+        ivProg =             rowView.findViewById(R.id.ivProg);
 
-        String currentModule = al.get(position);
+
+        // The parameter "position" is the index of the
+        //  row ListView is requesting.
+        //  We get back the food at the same index.
+        Module currentFood = module.get(position);
         // Set the TextView to show the food
 
-        textViewModule.setText(currentModule.getCode());
+        tvCode.setText(currentFood.getName());
         // Set the image to star or nostar accordingly
-        if(currentModule.isStar()) {
-            ivStar.setImageResource(R.drawable.star);
+        if(currentFood.isProg()) {
+            ivProg.setImageResource(R.drawable.prog);
         }
         else {
-            ivStar.setImageResource(R.drawable.nostar);
+            ivProg.setImageResource(R.drawable.nonprog);
         }
         // Return the nicely done up View to the ListView
         return rowView;
     }
-
-
-
-
-
-
-
 }
